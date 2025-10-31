@@ -30,19 +30,20 @@ exports.getUserById = async (req, res, next) => {
     }
 };
 
-exports.saveUser = async (req, res, next) => {
-    
-    
+exports.saveUser = async (req, res) => {
     try {
         await dbConnect();
-        console.log("Form data received:", req.body);
         let user = req.body;
         let newUser = await usersModel.create(user);
-        res.status(201).redirect("/users");
+        res.status(201).json({ message: 'Signup successful', data: newUser });
     } catch (error) {
-        res.status(400).json({ message: "fail", error: error });
+        let message = error.code === 11000 
+            ? 'Username or email already exists' 
+            : error.message;
+        res.status(400).json({ message });
     }
 };
+;
 
 exports.getUpdatePage = async (req, res) => {
     await dbConnect();

@@ -33,7 +33,7 @@ router.post('/', auth ,restrictTo('user' ,'admin') ,saveToDo);
 
 router.delete('/:id', auth ,restrictTo('user') ,deleteToDo);
 
-router.get('/view/api', viewAllTodos);
+router.get('/view/api', restrictTo('user'),viewAllTodos);
 
 
 module.exports = router;
