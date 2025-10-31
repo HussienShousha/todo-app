@@ -17,11 +17,12 @@ exports.auth = async (req, res, next) => {
     let decode = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
     req.role = decode.role;
-    // req.id = decode.id;
+     req.id = decode.id;
     next();
   } catch (error) {
     res.status(403).json({
       message: "invaild token",
+      error: error,
     });
   }
 };
