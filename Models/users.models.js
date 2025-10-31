@@ -50,7 +50,6 @@ userSchema.pre('save', async function (){
     let hashedPassword = await bcrypt.hash(this.password, salt);
 
     this.password = hashedPassword;
-    next();
 })
 
 
