@@ -22,7 +22,7 @@ router.get('/:id', auth ,getToDoByID);
 
 
 
-router.patch('/:id', auth ,restrictTo('admin') ,updateToDO)
+router.patch('/:id', auth ,restrictTo('user', 'admin') ,updateToDO);
 
 
 
