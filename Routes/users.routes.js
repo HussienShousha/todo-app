@@ -12,6 +12,11 @@ const {
 
 const router = express.Router();
 
+
+router.get('/', (req, res) => {
+    res.render('home');  // home.ejs
+});
+
 router.post("/login", login); 
 router.get("/login", (req, res) => {
     res.render("login");

@@ -5,19 +5,23 @@
   <title>Todos Dashboard</title>
   <link rel="stylesheet" href="../Static/style.css" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <style>
+    .status-to-do { background-color: #f0ad4e; color: white; }
+    .status-in-progress { background-color: #5bc0de; color: white; }
+    .status-done { background-color: #5cb85c; color: white; }
+    </style>
+
 </head>
 <body>
   <div class="container mt-4">
     <h2 class="mb-4 text-center">Todos Dashboard</h2>
 
-    <!-- Add Todo Form -->
     <form id="todoForm" class="mb-4 d-flex gap-2">
       <input type="text" name="title" class="form-control" placeholder="Todo title" required />
       <input type="text" name="description" class="form-control" placeholder="Description" />
       <button type="submit" class="btn btn-primary">Add Todo</button>
     </form>
 
-    <!-- Todos Table -->
     <table class="table table-striped table-bordered">
       <thead class="table-dark">
         <tr>
@@ -34,7 +38,8 @@
             <td><%= todo.title %></td>
             <td><%= todo.description %></td>
             <td>
-              <select class="statusDropdown form-select">
+              <select class="statusDropdown form-select 
+                    <%= todo.status === 'to-do' ? 'status-to-do' : todo.status === 'in progress' ? 'status-in-progress' : 'status-done' %>">
                 <option value="to-do" <%= todo.status === 'to-do' ? 'selected' : '' %>>To-Do</option>
                 <option value="in progress" <%= todo.status === 'in progress' ? 'selected' : '' %>>In Progress</option>
                 <option value="done" <%= todo.status === 'done' ? 'selected' : '' %>>Done</option>

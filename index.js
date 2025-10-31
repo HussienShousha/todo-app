@@ -18,6 +18,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(methodOverride("_method"));
 
+
+
+app.get('/', (req, res) => {
+  res.redirect('/users');
+});
 app.use((req, res, next) => {
   console.log("custom middleware");
   next();
