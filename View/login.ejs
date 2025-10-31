@@ -12,16 +12,24 @@
   <h3 class="mb-3 text-center">Login</h3>
   <input type="email" name="email" placeholder="Email" class="form-control mb-2" required />
   <input type="password" name="password" placeholder="Password" class="form-control mb-2" required />
-  <button type="submit" class="btn btn-success w-100">Login</button>
+  <button type="submit" id="loginBtn" class="btn btn-success w-100">Login</button>
   <p class="text-center mt-2 mb-0">Don't have an account? <a href="/users">Sign Up</a></p>
 </form>
 
 <script>
 const loginForm = document.getElementById('loginForm');
+const loginBtn = document.getElementById('loginBtn');
+let isSubmitting = false;
+
 loginForm.addEventListener('submit', async (e) => {
   e.preventDefault();
+  
+  if (isSubmitting) return; 
+  isSubmitting = true;
+  loginBtn.disabled = true;
+  loginBtn.textContent = 'Logging in...';
+  
   const data = Object.fromEntries(new FormData(loginForm).entries());
-
   console.log('Submitting login...', data);
 
   try {
@@ -32,7 +40,6 @@ loginForm.addEventListener('submit', async (e) => {
     });
 
     console.log('Response status:', res.status);
-    
     const result = await res.json();
     console.log('Response data:', result);
 
@@ -42,10 +49,17 @@ loginForm.addEventListener('submit', async (e) => {
       window.location.href = '/todos/view/api';
     } else {
       alert(result.message || "Login failed");
+    
+      isSubmitting = false;
+      loginBtn.disabled = false;
+      loginBtn.textContent = 'Login';
     }
   } catch (error) {
     console.error('Login error:', error);
     alert('Login failed: ' + error.message);
+    isSubmitting = false;
+    loginBtn.disabled = false;
+    loginBtn.textContent = 'Login';
   }
 });
 </script>
