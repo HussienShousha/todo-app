@@ -1,0 +1,31 @@
+<form id="signupForm" class="card p-4 shadow-sm" style="width: 350px;">
+  <h3 class="mb-3 text-center">Sign Up</h3>
+  <input type="text" name="username" placeholder="Username" class="form-control mb-2" required />
+  <input type="text" name="firstName" placeholder="First Name" class="form-control mb-2" required />
+  <input type="text" name="lastName" placeholder="Last Name" class="form-control mb-2" required />
+  <input type="email" name="email" placeholder="Email" class="form-control mb-2" required />
+  <input type="password" name="password" placeholder="Password" class="form-control mb-2" required />
+  <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+  <p class="text-center mt-2">Already have an account? <a href="/users/login">Login</a></p>
+</form>
+
+<script>
+const signupForm = document.getElementById('signupForm');
+signupForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const data = Object.fromEntries(new FormData(signupForm).entries());
+
+  const res = await fetch('/users', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  });
+  const result = await res.json();
+  if(res.ok){
+    alert('Signup successful! Please login.');
+    window.location.href = '/users/login';
+  } else {
+    alert(result.message || 'Signup failed.');
+  }
+});
+</script>

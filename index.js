@@ -21,7 +21,7 @@ app.use(methodOverride("_method"));
 
 
 app.get('/', (req, res) => {
-  res.redirect('/users');
+  res.render('home');
 });
 app.use((req, res, next) => {
   console.log("custom middleware");
