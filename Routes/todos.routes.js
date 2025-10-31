@@ -31,7 +31,7 @@ router.post('/', auth ,restrictTo('user' ,'admin') ,saveToDo);
 
 
 
-router.delete('/:id', auth ,restrictTo('admin') ,deleteToDo);
+router.delete('/:id', auth ,restrictTo('user') ,deleteToDo);
 
 router.get('/view/api', viewAllTodos);
 

@@ -7,6 +7,12 @@ const todoSchema = new mongoose.Schema({
         maxLength: [20, 'Todo must be at most 20 characters'],
         required: true
     },
+    description: {
+        type: String,
+        minLength: [5, 'Description must be at least 5 characters'],
+        maxLength: [100, 'Description must be at most 100 characters'],
+        required: true
+    },  
     status: {
         type: String,
         enum: ['to-do', 'in progress', 'done'],

@@ -13,11 +13,7 @@
     <!-- Add Todo Form -->
     <form id="todoForm" class="mb-4 d-flex gap-2">
       <input type="text" name="title" class="form-control" placeholder="Todo title" required />
-      <select name="status" class="form-select">
-        <option value="to-do" selected>To-Do</option>
-        <option value="in progress">In Progress</option>
-        <option value="done">Done</option>
-      </select>
+      <input type="text" name="description" class="form-control" placeholder="Description" />
       <button type="submit" class="btn btn-primary">Add Todo</button>
     </form>
 
@@ -27,8 +23,8 @@
         <tr>
           <th>#</th>
           <th>Title</th>
+          <th>Description</th>
           <th>Status</th>
-          <th>Actions</th>
         </tr>
       </thead>
       <tbody id="todosList">
@@ -36,9 +32,13 @@
           <tr data-id="<%= todo._id %>">
             <td><%= i + 1 %></td>
             <td><%= todo.title %></td>
-            <td><%= todo.status %></td>
+            <td><%= todo.description %></td>
             <td>
-              <button class="btn btn-danger btn-sm deleteBtn">Delete</button>
+              <select class="statusDropdown form-select">
+                <option value="to-do" <%= todo.status === 'to-do' ? 'selected' : '' %>>To-Do</option>
+                <option value="in progress" <%= todo.status === 'in progress' ? 'selected' : '' %>>In Progress</option>
+                <option value="done" <%= todo.status === 'done' ? 'selected' : '' %>>Done</option>
+              </select>
             </td>
           </tr>
         <% }) %>
@@ -70,21 +70,25 @@
       else alert(result.message || "Failed to add todo");
     });
 
-    // Delete Todo
-    todosList.addEventListener('click', async (e) => {
-      if(e.target.classList.contains('deleteBtn')){
+    // Change Status
+    todosList.addEventListener('change', async (e) => {
+      if(e.target.classList.contains('statusDropdown')){
         const tr = e.target.closest('tr');
         const id = tr.dataset.id;
+        const status = e.target.value;
 
         const res = await fetch('/todos/' + id, {
-          method: 'DELETE',
-          headers: { 'Authorization': 'Bearer ' + token }
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          },
+          body: JSON.stringify({ status })
         });
 
-        if(res.ok) tr.remove();
-        else {
+        if(!res.ok){
           const result = await res.json();
-          alert(result.message || "Failed to delete todo");
+          alert(result.message || "Failed to update status");
         }
       }
     });
