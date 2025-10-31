@@ -135,11 +135,8 @@ exports.login = async (req, res) => {
         { refreshToken: refreshToken }
     );
 
-    res.status(201).json({
-        message: "Success",
-        token,
-        refreshToken,
-    });
+  res.cookie('jwt', token, refreshToken,{ httpOnly: true, secure: true });
+
 };
 
 exports.refreshToken = async (req, res, next) => {
