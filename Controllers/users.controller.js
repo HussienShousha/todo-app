@@ -14,7 +14,7 @@ exports.getAllUsers = async (req, res, next) => {
     try {
         res.status(200).render("index", { users });
     } catch (error) {
-        res.status(500).json({ message: "fail" });
+        res.status(500).json({ message: "fail" , error: error});
     }
 };
 
@@ -26,19 +26,19 @@ exports.getUserById = async (req, res, next) => {
         if (!user) return res.status(404).json({ message: "user is Not Found" });
         res.status(200).json({ message: "Success", data: user });
     } catch (error) {
-        res.status(500).json({ message: "fail" });
+        res.status(500).json({ message: "fail" , error: error});
     }
 };
 
 exports.saveUser = async (req, res, next) => {
-    await
+    await dbConnect();
     console.log("Form data received:", req.body);
     let user = req.body;
     try {
         let newUser = await usersModel.create(user);
         res.status(201).redirect("/users");
     } catch (error) {
-        res.status(400).json({ message: "fail" });
+        res.status(400).json({ message: "fail", error: error });
     }
 };
 
@@ -71,7 +71,7 @@ exports.updateUser = async (req, res, next) => {
         if (!user) return res.status(404).json({ message: "user is Not Found" });
         res.status(201).redirect("/users");
     } catch (error) {
-        res.status(500).json({ message: "fail" });
+        res.status(500).json({ message: "fail" , error: error});
     }
 };
 
@@ -87,7 +87,7 @@ exports.deleteUser = async (req, res, next) => {
 
         res.status(204).redirect("/users");
     } catch (error) {
-        res.status(500).json({ message: "Error" });
+        res.status(500).json({ message: "Error" , error: error});
     }
 };
 
@@ -175,6 +175,7 @@ exports.refreshToken = async (req, res, next) => {
     } catch (error) {
         res.status(403).json({
             message: "Bad Request",
+            error: error.message,
         });
     }
 };
