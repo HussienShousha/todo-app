@@ -12,7 +12,10 @@ const {
 
 const router = express.Router();
 
-router.post("/login", login);          
+router.post("/login", login); 
+router.get("/login", (req, res) => {
+    res.render("login");
+});         
 router.post("/refreshToken", refreshToken);
 router.get("/edit/:id", getUpdatePage);
 
