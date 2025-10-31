@@ -13,20 +13,22 @@ const {
 const router = express.Router();
 
 
-router.get('/', (req, res) => {
-    res.render('signup');  
-});
-
-router.post("/login", login); 
+router.post("/login", login);
 router.get("/login", (req, res) => {
     res.render("login");
-});         
+});
 router.post("/refreshToken", refreshToken);
 router.get("/edit/:id", getUpdatePage);
 
-router.get("/", getAllUsers);         
-router.post("/", saveUser);            
-router.get("/:id", getUserById);       
+
+router.get("/signup", (req, res) => {
+    res.render("signup");
+});
+
+
+router.get("/all", getAllUsers);  
+router.post("/", saveUser);
+router.get("/:id", getUserById);
 router.patch("/:id", updateUser);
 router.delete("/:id", deleteUser);
 

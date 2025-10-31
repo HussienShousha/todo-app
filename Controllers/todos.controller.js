@@ -116,7 +116,6 @@ exports.deleteToDo = async (req, res, next) => {
 exports.viewAllTodos = async (req, res, next) => {
     await dbConnect();
     try {
-        // Only fetch todos created by the logged-in user
         const todos = await todosModel.find({ userId: req.id });
 
         res.render('todos', {
