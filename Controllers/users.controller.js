@@ -135,10 +135,11 @@ exports.login = async (req, res) => {
         { refreshToken: refreshToken }
     );
 
-  res
-    .cookie("jwt", token, { httpOnly: true, secure: false, maxAge: 2 * 60 * 60 * 1000 })
-    .status(200)
-    .json({ message: "Success" });
+    res.status(201).json({
+        message: "Success",
+        token,
+        refreshToken,
+    });
 };
 
 exports.refreshToken = async (req, res, next) => {
