@@ -16,6 +16,8 @@ const app = express();
 app.use(cookieParser());
 app.use(cors({ origin: "*", methods: "*" }));
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'Static')));
+
 app.use(express.json());
 app.use(methodOverride("_method"));
 
