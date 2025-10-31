@@ -116,7 +116,7 @@ exports.deleteToDo = async (req, res, next) => {
 exports.viewAllTodos = async (req, res, next) => {
     await dbConnect();
     try {
-        const todos = await todosModel.find({ userId: req.id });
+        const todos = await todosModel.find({}).populate('userId', 'firstName lastName username');
 
         res.render('todos', {
             title: 'Todos Dashboard',
