@@ -48,10 +48,11 @@ exports.getToDoByID = async (req, res) => {
 
 
 exports.saveToDo = async (req, res, next) => {
-    await dbConnect();
     const todo = req.body;
-    let newToDO = await todosModel.create(todo);
     try{
+        await dbConnect();
+    let newToDO = await todosModel.create(todo);
+
      res.status(200).json({
     message: 'SUCCESS',
     data: newToDO
