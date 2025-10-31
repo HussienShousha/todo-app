@@ -31,10 +31,12 @@ exports.getUserById = async (req, res, next) => {
 };
 
 exports.saveUser = async (req, res, next) => {
-    await dbConnect();
-    console.log("Form data received:", req.body);
-    let user = req.body;
+    
+    
     try {
+        await dbConnect();
+        console.log("Form data received:", req.body);
+        let user = req.body;
         let newUser = await usersModel.create(user);
         res.status(201).redirect("/users");
     } catch (error) {
