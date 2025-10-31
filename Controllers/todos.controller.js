@@ -113,26 +113,24 @@ exports.deleteToDo = async (req, res, next) => {
 };
 
 
-exports.viewAllTodos = async(req, res, next) => {
+exports.viewAllTodos = async (req, res, next) => {
     await dbConnect();
-   try {
-    
-        const todos = await todosModel.find({}).populate('userId', 'firstName lastName username')
-        
+    try {
+      
+        const todos = await todosModel
+            .find({ userId: req.id }) 
+            .populate('userId', 'firstName lastName username'); 
 
-        
         res.render('todos', {
             title: 'Todos Dashboard',
             todos: todos
         });
-        
     } catch (error) {
-        console.log( error);
+        console.log(error);
         res.render('todos', {
             title: 'Todos Dashboard - Error',
             todos: []
-           
         });
     }
-}
+};
 
