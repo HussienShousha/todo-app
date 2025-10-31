@@ -116,14 +116,12 @@ exports.deleteToDo = async (req, res, next) => {
 exports.viewAllTodos = async (req, res, next) => {
     await dbConnect();
     try {
-      
-        const todos = await todosModel
-            .find({ userId: req.id }) 
-            .populate('userId', 'firstName lastName username'); 
+        // Only fetch todos created by the logged-in user
+        const todos = await todosModel.find({ userId: req.id });
 
         res.render('todos', {
             title: 'Todos Dashboard',
-            todos: todos
+            todos
         });
     } catch (error) {
         console.log(error);
