@@ -52,9 +52,9 @@ mongoose
 
 const port = 3330;
 
-app.listen(port, () => {
-    console.log("connected successfly");
-});
+// app.listen(port, () => {
+//     console.log("connected successfly");
+// });
 
 // var validator = require('validator');
 
