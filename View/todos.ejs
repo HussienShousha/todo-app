@@ -7,43 +7,54 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"/>
 </head>
 <body>
-  <h2>Todos Dashboard</h2>
+  <div class="container mt-4">
+    <h2 class="mb-4 text-center">Todos Dashboard</h2>
 
-  <form id="todoForm">
-    <input type="text" name="title" placeholder="Todo title" required />
-    <input type="text" name="description" placeholder="Description" />
-    <button type="submit">Add Todo</button>
-  </form>
+    <!-- Add Todo Form -->
+    <form id="todoForm" class="mb-4 d-flex gap-2">
+      <input type="text" name="title" class="form-control" placeholder="Todo title" required />
+      <select name="status" class="form-select">
+        <option value="to-do" selected>To-Do</option>
+        <option value="in progress">In Progress</option>
+        <option value="done">Done</option>
+      </select>
+      <button type="submit" class="btn btn-primary">Add Todo</button>
+    </form>
 
-  <table class="table">
-    <thead>
-      <tr><th>#</th><th>Title</th><th>Description</th><th>Actions</th></tr>
-    </thead>
-    <tbody id="todosList">
-      <% todos.forEach((todo, i) => { %>
-        <tr data-id="<%= todo._id %>">
-          <td><%= i+1 %></td>
-          <td><%= todo.title %></td>
-          <td><%= todo.description %></td>
-          <td>
-            <button class="deleteBtn">Delete</button>
-          </td>
+    <!-- Todos Table -->
+    <table class="table table-striped table-bordered">
+      <thead class="table-dark">
+        <tr>
+          <th>#</th>
+          <th>Title</th>
+          <th>Status</th>
+          <th>Actions</th>
         </tr>
-      <% }) %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody id="todosList">
+        <% todos.forEach((todo, i) => { %>
+          <tr data-id="<%= todo._id %>">
+            <td><%= i + 1 %></td>
+            <td><%= todo.title %></td>
+            <td><%= todo.status %></td>
+            <td>
+              <button class="btn btn-danger btn-sm deleteBtn">Delete</button>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
 
   <script>
     const token = localStorage.getItem('token'); 
-
     const form = document.getElementById('todoForm');
     const todosList = document.getElementById('todosList');
 
-    
+    // Add Todo
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const formData = new FormData(form);
-      const data = Object.fromEntries(formData.entries());
+      const data = Object.fromEntries(new FormData(form).entries());
 
       const res = await fetch('/todos', {
         method: 'POST',
@@ -56,9 +67,10 @@
 
       const result = await res.json();
       if(res.ok) location.reload(); 
-      else alert(result.message);
+      else alert(result.message || "Failed to add todo");
     });
 
+    // Delete Todo
     todosList.addEventListener('click', async (e) => {
       if(e.target.classList.contains('deleteBtn')){
         const tr = e.target.closest('tr');
@@ -72,7 +84,7 @@
         if(res.ok) tr.remove();
         else {
           const result = await res.json();
-          alert(result.message);
+          alert(result.message || "Failed to delete todo");
         }
       }
     });
