@@ -6,7 +6,6 @@
 
 <script>
   const loginForm = document.getElementById('loginForm');
-
   loginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(loginForm).entries());
@@ -20,7 +19,7 @@
     const result = await res.json();
     if(res.ok) {
       localStorage.setItem('token', result.token); 
-      window.location.href = '/todos/view/api';
+      window.location.href = '/todos/view/api';    
     } else alert(result.message);
   });
 </script>
