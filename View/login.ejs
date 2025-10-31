@@ -21,7 +21,7 @@ loginForm.addEventListener('submit', async (e) => {
   const result = await res.json();
   if (res.ok) {
     localStorage.setItem('token', result.token);
-    window.location.href = '/todos/view';
+    window.location.href = '/todos/view/api';
   } else {
     alert(result.message || "Login failed");
   }
