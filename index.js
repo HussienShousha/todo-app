@@ -52,6 +52,7 @@ mongoose
 
 const port = 3330;
 
+module.exports = app;
 // app.listen(port, () => {
 //     console.log("connected successfly");
 // });
