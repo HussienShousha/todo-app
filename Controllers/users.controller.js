@@ -5,8 +5,11 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const { promisify } = require("util");
+const dbConnect = require("../dbConnect");
+
 
 exports.getAllUsers = async (req, res, next) => {
+    await dbConnect();
     let users = await usersModel.find({});
     try {
         res.status(200).render("index", { users });
@@ -16,6 +19,7 @@ exports.getAllUsers = async (req, res, next) => {
 };
 
 exports.getUserById = async (req, res, next) => {
+    await dbConnect();
     let { id } = req.params;
     try {
         let user = await usersModel.findById(id);
@@ -27,6 +31,7 @@ exports.getUserById = async (req, res, next) => {
 };
 
 exports.saveUser = async (req, res, next) => {
+    await
     console.log("Form data received:", req.body);
     let user = req.body;
     try {
@@ -38,6 +43,7 @@ exports.saveUser = async (req, res, next) => {
 };
 
 exports.getUpdatePage = async (req, res) => {
+    await dbConnect();
   try {
     let user = await usersModel.find({ _id: req.params.id });
 
@@ -52,6 +58,7 @@ exports.getUpdatePage = async (req, res) => {
 };
 
 exports.updateUser = async (req, res, next) => {
+    await dbConnect();
     let user = req.body;
     let { id } = req.params;
 
@@ -69,6 +76,7 @@ exports.updateUser = async (req, res, next) => {
 };
 
 exports.deleteUser = async (req, res, next) => {
+    await dbConnect();
     const { id } = req.params;
     let user = await usersModel.findByIdAndDelete(id);
     try {
@@ -84,6 +92,7 @@ exports.deleteUser = async (req, res, next) => {
 };
 
 exports.login = async (req, res) => {
+    await dbConnect();
     let { email, password } = req.body;
 
     if (!email || !password) {
@@ -131,6 +140,7 @@ exports.login = async (req, res) => {
 };
 
 exports.refreshToken = async (req, res, next) => {
+    await dbConnect();
     let { refreshToken } = req.body;
 
     if (!refreshToken) {
