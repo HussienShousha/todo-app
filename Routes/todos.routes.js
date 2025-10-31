@@ -4,7 +4,7 @@ const {auth, restrictTo} = require('../Middleware/auth');
 
 const router = express.Router();
 
-router.get('/view/api', viewAllTodos);
+router.get('/view/api', auth, viewAllTodos);
 
 router.get('/', auth, getAllToDos);
 router.post('/', auth, restrictTo('user', 'admin'), saveToDo);

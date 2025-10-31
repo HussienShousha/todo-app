@@ -1,20 +1,22 @@
+// Middleware/auth.js
 const jwt = require("jsonwebtoken");
 const { promisify } = require("util");
 
 exports.auth = async (req, res, next) => {
   let { authorization } = req.headers;
+  const cookieToken = req.cookies?.jwt;
 
-  if (!authorization) {
+  const token = authorization?.startsWith("Bearer ")
+    ? authorization.split(" ")[1]
+    : authorization || cookieToken;
+
+  if (!token) {
     return res.status(401).json({
       message: "you must login first",
     });
   }
 
   try {
-    const token = authorization.startsWith("Bearer ")
-      ? authorization.split(" ")[1]
-      : authorization;
-      
     let decode = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
     req.role = decode.role;

@@ -4,6 +4,7 @@ const cors = require("cors");
 const methodOverride = require("method-override");
 const swagger = require("swagger-ui-express");
 const path = require("path"); 
+const cookieParser = require('cookie-parser');
 
 const todosRoutes = require("./Routes/todos.routes");
 const usersRoutes = require("./Routes/users.routes");
@@ -12,7 +13,7 @@ const swaggerDocs = require("./swagger.json");
 dotenv.config();
 
 const app = express();
-
+app.use(cookieParser());
 app.use(cors({ origin: "*", methods: "*" }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
