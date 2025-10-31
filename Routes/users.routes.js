@@ -12,20 +12,16 @@ const {
 
 const router = express.Router();
 
-router.get("/", getAllUsers);
 
-router.get("/:id", getUserById);
-
+router.post("/login", login);          
+router.post("/refreshToken", refreshToken);
+router.get("/", getAllUsers);         
 router.get("/edit/:id", getUpdatePage);
+router.post("/", saveUser);            
 
+router.get("/:id", getUserById);       
 router.patch("/:id", updateUser);
-
-router.post("/", saveUser);
-
 router.delete("/:id", deleteUser);
 
-router.post("/login", login);
-
-router.post("/refreshToken", refreshToken);
 
 module.exports = router;
