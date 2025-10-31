@@ -51,7 +51,7 @@ exports.saveToDo = async (req, res, next) => {
     const todo = req.body;
     try{
     await dbConnect();
-    todo.userId = req.userId;
+    todo.userId = req.id;
     let newToDO = await todosModel.create(todo);
 
      res.status(200).json({
