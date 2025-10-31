@@ -1,8 +1,9 @@
 
 const todosModel = require('../Models/todos.models');
-
+const dbConnect = require('../dbConnect');
 
 exports.getAllToDos = async (req, res) => {
+    await dbConnect();
    let todos =  await todosModel.find().populate('userId','-_id -password -__v');
    try{
     res.status(200).json({
@@ -13,7 +14,8 @@ exports.getAllToDos = async (req, res) => {
    catch(error)
    {
     res.status(500).json({
-    message: 'There is a problem'
+    message: 'There is a problem',
+    error: error
    
    })
    }
@@ -22,6 +24,7 @@ exports.getAllToDos = async (req, res) => {
 
 
 exports.getToDoByID = async (req, res) => {
+    await dbConnect();
     let { id } = req.params;
 
     try{
@@ -36,13 +39,16 @@ exports.getToDoByID = async (req, res) => {
     }
     catch(error){
         res.status(400).json({
-    message: 'fail'});
+    message: 'fail',
+    error: error
+   });
     }
 
 };
 
 
 exports.saveToDo = async (req, res, next) => {
+    await dbConnect();
     const todo = req.body;
     let newToDO = await todosModel.create(todo);
     try{
@@ -54,7 +60,8 @@ exports.saveToDo = async (req, res, next) => {
     catch(error)
     {
         res.status(400).json({
-            message: 'there is error'
+            message: 'there is error',
+            error: error
         });
     }
 
@@ -62,6 +69,7 @@ exports.saveToDo = async (req, res, next) => {
 
 
 exports.updateToDO = async(req, res, next) => {
+    await dbConnect();
     let {id} = req.params;
     let updatedToDO = req.body;
     try {
@@ -73,7 +81,7 @@ exports.updateToDO = async(req, res, next) => {
     }
     catch(error)
     {
-        res.status(400).json({ message: 'fail' });
+        res.status(400).json({ message: 'fail', error: error});
 
     }
 
@@ -81,6 +89,7 @@ exports.updateToDO = async(req, res, next) => {
 
 
 exports.deleteToDo = async (req, res, next) => {
+    await dbConnect();
     const {id} = req.params;
     let todo = await todosModel.findByIdAndDelete(id);
     try{
@@ -103,6 +112,7 @@ exports.deleteToDo = async (req, res, next) => {
 
 
 exports.viewAllTodos = async(req, res, next) => {
+    await dbConnect();
    try {
     
         const todos = await todosModel.find({}).populate('userId', 'firstName lastName username')
